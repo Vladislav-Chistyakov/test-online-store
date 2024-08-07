@@ -28,7 +28,7 @@
 
 .header {
   width: 100%;
-  padding: 45px 0;
+  padding: 25px 0;
   background-color: $application-bg;
   color: $white;
 }
