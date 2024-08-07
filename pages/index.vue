@@ -1,10 +1,9 @@
 <script setup lang="ts">
+import Main from "~/components/Main/Main.vue";
 </script>
 
 <template>
-<div>
-  page
-</div>
+  <Main></Main>
 </template>
 
 <style scoped lang="scss">
