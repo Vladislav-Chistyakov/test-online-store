@@ -1,0 +1,69 @@
+@font-face {
+  font-family: 'Jost';
+  src: url('public/fonts/Jost-Medium.woff2') format('woff2'),
+  url('public/fonts/Jost-Medium.woff') format('woff'),
+  url('public/fonts/Jost-Medium.ttf') format('truetype'),
+  url('public/fonts/Jost-Medium.svg#Jost-Medium') format('svg');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('public/fonts/Jost-Regular.woff2') format('woff2'),
+  url('public/fonts/Jost-Regular.woff') format('woff'),
+  url('public/fonts/Jost-Regular.ttf') format('truetype'),
+  url('public/fonts/Jost-Regular.svg#Jost-Regular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('public/fonts/Jost-Light.woff2') format('woff2'),
+  url('public/fonts/Jost-Light.woff') format('woff'),
+  url('public/fonts/Jost-Light.ttf') format('truetype'),
+  url('public/fonts/Jost-Light.svg#Jost-Light') format('svg');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('public/fonts/Jost-Bold.woff2') format('woff2'),
+  url('public/fonts/Jost-Bold.woff') format('woff'),
+  url('public/fonts/Jost-Bold.ttf') format('truetype'),
+  url('public/fonts/Jost-Bold.svg#Jost-Bold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('public/fonts/Jost-Thin.woff2') format('woff2'),
+  url('public/fonts/Jost-Thin.woff') format('woff'),
+  url('public/fonts/Jost-Thin.ttf') format('truetype'),
+  url('public/fonts/Jost-Thin.svg#Jost-Thin') format('svg');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Jost';
+  src: url('public/fonts/Jost-ExtraBold.woff2') format('woff2'),
+  url('public/fonts/Jost-ExtraBold.woff') format('woff'),
+  url('public/fonts/Jost-ExtraBold.ttf') format('truetype'),
+  url('public/fonts/Jost-ExtraBold.svg#Jost-ExtraBold') format('svg');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  font-family: 'Jost', sans-serif;
+}
