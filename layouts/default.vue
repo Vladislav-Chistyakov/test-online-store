@@ -3,13 +3,15 @@
 </script>
 
 <template>
-  <div>
+  <div class="layouts">
     <Header></Header>
     <slot />
     <Footer></Footer>
   </div>
 </template>
 
-<style lang="scss">
-
+<style scoped lang="scss">
+.layouts {
+  height: 100vh;
+}
 </style>
