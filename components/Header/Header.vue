@@ -4,7 +4,9 @@
 <template>
   <header class="header">
     <div class="header__container container">
-      <h1 class="header__heading">Kotiki/kayotiki</h1>
+      <NuxtLink to="/">
+        <h1 class="header__heading">Kotiki/kayotiki</h1>
+      </NuxtLink>
       <div class="header__link-basket">
         <span class="header__basket-icon">
           <svg height="34" viewBox="0 0 512 512" width="34" xmlns="http://www.w3.org/2000/svg">
@@ -42,6 +44,7 @@
 .header__heading {
   font-size: 18px;
   line-height: 20px;
+  color: $white;
 }
 
 .header__link-basket {

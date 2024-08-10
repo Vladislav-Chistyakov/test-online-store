@@ -5,7 +5,6 @@ import type { Product } from '~/types'
 import type {ComputedRef, PropType, Ref} from 'vue'
 import Pagination from "~/components/Main/Store/Pagination/Pagination.vue";
 
-defineComponent([Loader, ProductItem])
 const props = defineProps({
   listProducts: {
     type: Object as PropType<Array<Product>>,

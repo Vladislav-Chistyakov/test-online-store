@@ -1,13 +1,28 @@
 <script setup lang="ts">
 import Card from "~/components/Main/Card/Card.vue";
 import Loader from '~/components/Loader.vue'
+import Error from '~/components/Error/Error.vue'
 import {$fetch} from "ofetch";
 
-const dataThree = ref(null)
+const card = ref(null)
+const pending = ref(false)
+const errorText = ref('')
 const route = useRoute()
 
 onMounted(async () => {
-  dataThree.value = await $fetch(`/api/card/${route.params.slug}`)
+  pending.value = true
+  await $fetch(`/api/card/${route.params.slug}`)
+      .then((data) => {
+        card.value = data
+        errorText.value = ''
+      })
+      .catch((error) => {
+        console.error('Error fetch getProducts: ', error)
+        errorText.value = error
+      })
+      .finally(() => {
+        pending.value = false
+      })
 })
 
 </script>
@@ -15,7 +30,10 @@ onMounted(async () => {
 <template>
   <div class="card">
     <div class="card__container container">
-      <span v-if="dataThree">{{ dataThree }}</span>
+      <Loader v-if="pending" />
+      <Error v-if="errorText" :error-text="errorText" />
+      <Card></Card>
+      <span v-if="card">{{ card }}</span>
     </div>
   </div>
 </template>
