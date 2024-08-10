@@ -1,4 +1,13 @@
 <script setup lang="ts">
+import {useState} from "#app";
+import {computed} from "vue";
+import {useCart} from "~/storage/cart";
+
+const store = useCart()
+
+const storeNumber = store.numberCartProduct
+
+
 </script>
 
 <template>
@@ -18,7 +27,7 @@
             </g>
           </svg>
         </span>
-        <div class="header__basket-quantity">3</div>
+        <div class="header__basket-quantity">{{ storeNumber }}</div>
       </div>
     </div>
   </header>

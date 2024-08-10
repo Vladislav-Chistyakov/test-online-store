@@ -3,11 +3,17 @@ import Card from "~/components/Main/Card/Card.vue";
 import Loader from '~/components/Loader.vue'
 import Error from '~/components/Error/Error.vue'
 import {$fetch} from "ofetch";
+import {useState} from "#app";
+import {useCart} from "~/storage/cart";
 
 const card = ref(null)
 const pending = ref(false)
 const errorText = ref('')
 const route = useRoute()
+
+const store = useCart()
+
+// console.log('state', state.value)
 
 onMounted(async () => {
   pending.value = true
@@ -25,11 +31,23 @@ onMounted(async () => {
       })
 })
 
+const counter = useState('counter', () => Math.round(Math.random() * 1000))
+
 </script>
 
 <template>
   <div class="card">
     <div class="card__container container">
+      <div>
+        Counter: {{ store.countCart }}
+        <button @click="store.countCart++">
+          +
+        </button>
+        <button @click="store.countCart--">
+          -
+        </button>
+      </div>
+<!--      <button @click.prevent="cartOne"> cart + 1</button>-->
       <Loader v-if="pending" />
       <Error v-if="errorText" :error-text="errorText" />
       <Card></Card>
