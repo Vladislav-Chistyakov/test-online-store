@@ -2,14 +2,15 @@
 import Store from './Store/Store.vue'
 import type {Product} from "~/types";
 import {$fetch} from "ofetch";
+import type { Ref, ComputedRef } from 'vue'
 const components = defineComponent({ Store })
 
 const runtimeConfig = useRuntimeConfig()
 const apiGetProducts = runtimeConfig.public.host
 
-const products = ref<null | { items: Array<Product> }>(null)
-const pending = ref<Boolean>(false)
-const errorText = ref<String>('')
+const products: Ref<null | { items: Array<Product> }> = ref(null)
+const pending: Ref<Boolean> = ref<Boolean>(false)
+const errorText: Ref<String> = ref('')
 
 
 const getProducts = async function () {
