@@ -1,6 +1,46 @@
 <script setup lang="ts">
-import ListProducts from './ListProducts/ListProducts.vue'
-const components = defineComponent({ ListProducts })
+import Store from './Store/Store.vue'
+import type {Product} from "~/types";
+import {$fetch} from "ofetch";
+const components = defineComponent({ Store })
+
+const runtimeConfig = useRuntimeConfig()
+const apiGetProducts = runtimeConfig.public.host
+
+const products = ref<null | { items: Array<Product> }>(null)
+const pending = ref<Boolean>(false)
+const errorText = ref<String>('')
+
+
+const getProducts = async function () {
+  pending.value = true
+  await $fetch(apiGetProducts, { method: 'GET' })
+      .then((data) => {
+        console.warn('data: ', data)
+        products.value = data
+        errorText.value = ''
+      })
+      .catch((error) => {
+        console.error('Error fetch getProducts: ', error)
+        errorText.value = error
+      })
+      .finally(() => {
+        pending.value = false
+      })
+}
+
+const listResult: ComputedRef<Array<Product>> = computed(() => {
+  if (products.value && Array.isArray(products.value.items)) {
+    if (products.value.items.length) {
+      return products.value.items
+    }
+  }
+  return []
+})
+
+onBeforeMount(() => {
+  getProducts()
+})
 
 </script>
 
@@ -14,7 +54,9 @@ const components = defineComponent({ ListProducts })
       </div>
       <div class="main__shop">
         <div class="main__shop-wrapper">
-          <ListProducts></ListProducts>
+          <Store v-if="listResult"
+                 :pending="pending"
+                 :list-products="listResult" />
         </div>
       </div>
     </div>
