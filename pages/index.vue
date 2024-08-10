@@ -5,6 +5,3 @@ import Main from "~/components/Main/Main.vue";
 <template>
   <Main></Main>
 </template>
-
-<style scoped lang="scss">
-</style>

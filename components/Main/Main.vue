@@ -4,9 +4,8 @@ import type {Product} from "~/types";
 import {$fetch} from "ofetch";
 import type { Ref, ComputedRef } from 'vue'
 const components = defineComponent({ Store })
-
-const runtimeConfig = useRuntimeConfig()
-const apiGetProducts = runtimeConfig.public.host
+// const runtimeConfig = useRuntimeConfig()
+// const apiGetProducts = runtimeConfig.public.host
 
 const products: Ref<null | { items: Array<Product> }> = ref(null)
 const pending: Ref<Boolean> = ref<Boolean>(false)
@@ -15,7 +14,7 @@ const errorText: Ref<String> = ref('')
 
 const getProducts = async function () {
   pending.value = true
-  await $fetch(apiGetProducts, { method: 'GET' })
+  await $fetch('/api/list/list')
       .then((data) => {
         console.warn('data: ', data)
         products.value = data
@@ -69,9 +68,8 @@ onBeforeMount(() => {
 @import "assets/scss/container";
 
 .main {
-  min-height: 100vh;
+  height: 100%;
   padding-top: 30px;
-  background-color: $beige-light;
   padding-bottom: 40px;
 }
 
@@ -98,7 +96,6 @@ onBeforeMount(() => {
 .main__shop {
   height: 100%;
   background-color: inherit;
-  padding: 15px 20px;
 }
 
 .main__shop-wrapper {

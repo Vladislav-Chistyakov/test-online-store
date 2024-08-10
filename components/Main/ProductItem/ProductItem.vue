@@ -15,7 +15,7 @@ const localPrice = computed(() => props.item.price.toLocaleString('ru-RU'))
            class="product-item__picture-image">
     </picture>
 
-    <div class="product-item__bottom">
+    <NuxtLink :to="{ name: 'card-slug', params: {slug: item.slug }}" class="product-item__bottom">
       <div v-if="item" class="product-item__info">
         <p class="product-item__info-description">
           {{ item.title }}
@@ -32,7 +32,7 @@ const localPrice = computed(() => props.item.price.toLocaleString('ru-RU'))
             :style="{ backgroundColor: color.code }"
             class="product-item__list-colors-item" />
       </ul>
-    </div>
+    </NuxtLink>
   </li>
 </template>
 

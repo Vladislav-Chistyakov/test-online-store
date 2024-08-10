@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2024-08-09',
   devtools: { enabled: true },
+  ssr: true,
   css: ['~/assets/scss/main.scss'],
   runtimeConfig: {
     app: {},
@@ -9,5 +10,4 @@ export default defineNuxtConfig({
       host: process.env.NUXT_APP_API
     }
   }
-
 })
