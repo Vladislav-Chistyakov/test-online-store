@@ -12,6 +12,6 @@
 
 <style scoped lang="scss">
 .layouts {
-  height: 100vh;
+  height: 100%;
 }
 </style>
