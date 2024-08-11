@@ -137,7 +137,7 @@ const deleteProduct = function () {
             <div class="card__wrapper-product-quantity">{{productQuantity}}</div>
             <button @click="addProduct" class="card__wrapper-buttons-add">+</button>
           </div>
-          <button class="card__delete-button" @click="deleteProduct" v-if="productQuantity > 0">Удалить продукт</button>
+          <button class="card__delete-button" @click="deleteProduct" v-if="productQuantity > 0">Удалить товар</button>
 
           <b class="card__total-price" v-if="product && product.totalPrice">
             {{ product.totalPrice.toLocaleString('ru-RU') }}&#8381;

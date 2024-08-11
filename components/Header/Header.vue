@@ -4,11 +4,6 @@ import {useCart} from "~/storage/cart";
 
 const store = useCart()
 
-const storeNumber = computed(() => {
-  return store.numberCartProduct
-})
-
-
 </script>
 
 <template>
@@ -28,7 +23,7 @@ const storeNumber = computed(() => {
             </g>
           </svg>
         </span>
-        <div class="header__basket-quantity">{{ storeNumber }}</div>
+        <div class="header__basket-quantity">{{ store.countBasket }}</div>
       </NuxtLink>
     </div>
   </header>

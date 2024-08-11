@@ -55,12 +55,13 @@ export const useCart = defineStore('cart', () => {
         for (const item of arrProductQuantity) {
             count.value = count.value + item
         }
-        return count.value
+        countBasket.value = count.value
+        return countBasket.value
     })
 
     const totalPriceProducts: ComputedRef<number> = computed (() => {
         const price = ref(0)
-        const arrProductPrice = arrayItemsCard.value.map(item => item.price)
+        const arrProductPrice = arrayItemsCard.value.map(item => item.totalPrice)
         for (const item of arrProductPrice) {
             price.value = price.value + item
         }
@@ -93,6 +94,7 @@ export const useCart = defineStore('cart', () => {
     }
 
     return {
+        countBasket,
         addItemToCart,
         deleteProduct,
         ifThisProduct,
