@@ -87,6 +87,12 @@ const removeProduct = function () {
   }
 }
 
+const deleteProduct = function () {
+  if (product.value) {
+    store.deleteProduct(product.value)
+  }
+}
+
 </script>
 
 <template>
@@ -134,6 +140,7 @@ const removeProduct = function () {
             <div class="card__wrapper-product-quantity">{{productQuantity}}</div>
             <button @click="addProduct" class="card__wrapper-buttons-add">+</button>
           </div>
+          <button @click="deleteProduct">Удалить продукт</button>
         </div>
       </div>
       <div style="background-color: #A4A7AA">

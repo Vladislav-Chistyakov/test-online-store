@@ -31,6 +31,17 @@ export const useCart = defineStore('cart', () => {
         itemsInCart.value.push(newItem);
     }
 
+    function deleteProduct (product: ProductForBasket) {
+        for (let index = 0; index < itemsInCart.value.length; index++) {
+            if (itemsInCart.value[index].id === product.id && itemsInCart.value[index].color === product.color) {
+                product.productQuantity = 0
+                itemsInCart.value[index] = {...product}
+                cleaningOfProductArray()
+                return
+            }
+        }
+    }
+
     function cleaningOfProductArray () {
         arrayItemsCard.value = arrayItemsCard.value.filter(item => item.productQuantity !== 0)
     }
@@ -66,6 +77,7 @@ export const useCart = defineStore('cart', () => {
 
     return {
         addItemToCart,
+        deleteProduct,
         numberCartProduct,
         countCart,
         products,
