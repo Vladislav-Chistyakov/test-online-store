@@ -41,6 +41,10 @@ const filterArray = function (event: Array<Product>) {
   activeArray.value = event
 }
 
+const clearFilter = function (event: Array<Product>) {
+  activeArray.value = event
+}
+
 onBeforeMount(() => {
   getProducts()
 })
@@ -55,6 +59,7 @@ onBeforeMount(() => {
           <Filter v-if="listResult"
                   :pending="pending"
                   @filter-array="filterArray"
+                  @clear-filter="clearFilter"
                   :list-products="listResult" />
         </div>
       </div>
