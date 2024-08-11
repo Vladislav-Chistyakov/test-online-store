@@ -3,11 +3,12 @@ import Store from './Store/Store.vue'
 import Filter from './Filter/index.vue'
 import type {Product} from "~/types";
 import {$fetch} from "ofetch";
-import type { Ref, ComputedRef } from 'vue'
+import {type Ref, type ComputedRef, computed} from 'vue'
 
 const products: Ref<null | { items: Array<Product> }> = ref(null)
-const pending: Ref<Boolean> = ref<Boolean>(false)
+const pending: Ref<Boolean> = ref(true)
 const errorText: Ref<String> = ref('')
+const activeArray: Ref<Array<Product>> = ref([])
 
 
 const getProducts = async function () {
@@ -16,6 +17,7 @@ const getProducts = async function () {
       .then((data) => {
         products.value = data
         errorText.value = ''
+        activeArray.value = listResult.value
       })
       .catch((error) => {
         console.error('Error fetch getProducts: ', error)
@@ -35,6 +37,10 @@ const listResult: ComputedRef<Array<Product>> = computed(() => {
   return []
 })
 
+const filterArray = function (event: Array<Product>) {
+  activeArray.value = event
+}
+
 onBeforeMount(() => {
   getProducts()
 })
@@ -48,14 +54,15 @@ onBeforeMount(() => {
         <div class="main__filter-wrapper">
           <Filter v-if="listResult"
                   :pending="pending"
+                  @filter-array="filterArray"
                   :list-products="listResult" />
         </div>
       </div>
       <div class="main__shop">
         <div class="main__shop-wrapper">
-          <Store v-if="listResult"
+          <Store v-if="activeArray"
                  :pending="pending"
-                 :list-products="listResult" />
+                 :list-products="activeArray" />
         </div>
       </div>
     </div>
