@@ -37,7 +37,6 @@ const colorProduct: Ref<string> = ref('')
 const sortActivePrice: Ref<'up' | 'down' | 'default'> = ref('default')
 
 const clickColorButton = function (code: string) {
-  console.log('code', code)
   colorProduct.value === code ? colorProduct.value = '' : colorProduct.value = code
 }
 

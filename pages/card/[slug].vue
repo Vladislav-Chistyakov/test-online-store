@@ -33,27 +33,31 @@ const localPrice = computed(() => {
   return 0
 })
 
+const initProduct = function () {
+  if (product.value && card.value && card.value?.id) {
+    if (store.ifThisProduct(card.value?.id, product.value?.color)) {
+      product.value = store.gettingProductDate(card.value?.id, product.value?.color)
+    } else {
+      product.value.id = card.value?.id || 0
+      product.value.name = card.value?.title || ''
+      product.value.price = card.value?.price || 0
+      product.value.productQuantity = 0
+      product.value.urlImage = card.value?.image?.file?.url || ''
+      product.value.category = card.value?.category?.slug || ''
+      if (typeof route.params.slug === 'string') {
+        product.value.slug = route.params.slug
+      }
+    }
+  }
+}
+
 onMounted(async () => {
   pending.value = true
   await $fetch(`/api/card/${route.params.slug}`)
       .then((data: CardProduct) => {
         card.value = data
         errorText.value = ''
-        if (product.value && card.value && card.value?.id) {
-          if (store.ifThisProduct(card.value?.id, product.value?.color)) {
-            product.value = store.gettingProductDate(card.value?.id, product.value?.color)
-          } else {
-            product.value.id = card.value?.id || 0
-            product.value.name = card.value?.title || ''
-            product.value.price = card.value?.price || 0
-            product.value.productQuantity = 0
-            product.value.urlImage = card.value?.image?.file?.url || ''
-            product.value.category = card.value?.category?.slug || ''
-            if (typeof route.params.slug === 'string') {
-              product.value.slug = route.params.slug
-            }
-          }
-        }
+        initProduct()
       })
       .catch((error) => {
         console.error('Error fetch getProducts: ', error)
