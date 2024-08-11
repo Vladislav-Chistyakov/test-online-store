@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import {useState} from "#app";
 import {computed} from "vue";
 import {useCart} from "~/storage/cart";
 
 const store = useCart()
 
-// const storeNumber = computed(() => {
-//   return
-// })
+const storeNumber = computed(() => {
+  return store.numberCartProduct
+})
 
 
 </script>
@@ -18,7 +17,7 @@ const store = useCart()
       <NuxtLink to="/">
         <h1 class="header__heading">Kotiki/kayotiki</h1>
       </NuxtLink>
-      <div class="header__link-basket">
+      <NuxtLink to="/cart" class="header__link-basket">
         <span class="header__basket-icon">
           <svg height="34" viewBox="0 0 512 512" width="34" xmlns="http://www.w3.org/2000/svg">
             <g id="outline">
@@ -29,8 +28,8 @@ const store = useCart()
             </g>
           </svg>
         </span>
-        <div class="header__basket-quantity">{{ store.numberCartProduct }}</div>
-      </div>
+        <div class="header__basket-quantity">{{ storeNumber }}</div>
+      </NuxtLink>
     </div>
   </header>
 </template>

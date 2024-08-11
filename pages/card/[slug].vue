@@ -22,7 +22,8 @@ product.value = {
   totalAmount: 0,
   name: '',
   category: '',
-  urlImage: ''
+  urlImage: '',
+  slug: ''
 }
 
 const localPrice = computed(() => {
@@ -48,8 +49,10 @@ onMounted(async () => {
             product.value.productQuantity = 0
             product.value.urlImage = card.value?.image?.file?.url || ''
             product.value.category = card.value?.category?.slug || ''
+            if (typeof route.params.slug === 'string') {
+              product.value.slug = route.params.slug
+            }
           }
-
         }
       })
       .catch((error) => {
@@ -147,7 +150,7 @@ const deleteProduct = function () {
 
 <style scoped lang="scss">
 @import "@/assets/scss/colors";
-@import "assets/scss/container";
+@import "@/assets/scss/container";
 
 .card {
   height: 100%;

@@ -55,5 +55,6 @@ export type ProductForBasket = {
     totalAmount: number,
     name: string,
     category: string,
-    urlImage: string
+    urlImage: string,
+    slug: string
 }

@@ -1,9 +1,10 @@
 import { defineStore } from "pinia";
-import {computed} from "vue";
-import type {ItemsInCart, ProductForBasket} from "~/types";
+import {computed, type ComputedRef} from "vue";
+import type {ProductForBasket} from "~/types";
 import type { Ref } from 'vue'
 
 export const useCart = defineStore('cart', () => {
+    const countBasket = ref(0)
     const products = ref(null)
     const itemsInCart: Ref<Array<ProductForBasket>> = ref([]);
 
@@ -13,6 +14,7 @@ export const useCart = defineStore('cart', () => {
         },
         set(newValue: Array<ProductForBasket>) {
             itemsInCart.value = newValue
+            countBasket.value = numberCartProduct.value
         }
     })
 
@@ -23,10 +25,12 @@ export const useCart = defineStore('cart', () => {
                 if (newItem.productQuantity === 0) {
                     cleaningOfProductArray()
                 }
+                countBasket.value = numberCartProduct.value
                 return
             }
         }
         itemsInCart.value.push(newItem)
+        countBasket.value = numberCartProduct.value
     }
 
     function deleteProduct (product: ProductForBasket) {
@@ -42,6 +46,7 @@ export const useCart = defineStore('cart', () => {
 
     function cleaningOfProductArray () {
         arrayItemsCard.value = arrayItemsCard.value.filter(item => item.productQuantity !== 0)
+        countBasket.value = numberCartProduct.value
     }
 
     const numberCartProduct = computed (() => {
@@ -51,6 +56,15 @@ export const useCart = defineStore('cart', () => {
             count.value = count.value + item
         }
         return count.value
+    })
+
+    const totalPriceProducts: ComputedRef<number> = computed (() => {
+        const price = ref(0)
+        const arrProductPrice = arrayItemsCard.value.map(item => item.price)
+        for (const item of arrProductPrice) {
+            price.value = price.value + item
+        }
+        return price.value
     })
 
     const ifThisProduct = function (id: number, color: string): boolean {
@@ -82,6 +96,7 @@ export const useCart = defineStore('cart', () => {
         addItemToCart,
         deleteProduct,
         ifThisProduct,
+        totalPriceProducts,
         numberCartProduct,
         products,
         itemsInCart,
