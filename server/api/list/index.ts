@@ -1,4 +1,3 @@
 export default defineEventHandler(async (event) => {
-    const config = useRuntimeConfig(event)
-    return await $fetch(`${config.public.host}`)
+    return await $fetch(`https://vue-study.skillbox.cc/api/products`)
 })
