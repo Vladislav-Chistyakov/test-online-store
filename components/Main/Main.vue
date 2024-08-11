@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Store from './Store/Store.vue'
+import Filter from './Filter/index.vue'
 import type {Product} from "~/types";
 import {$fetch} from "ofetch";
 import type { Ref, ComputedRef } from 'vue'
@@ -13,7 +14,6 @@ const getProducts = async function () {
   pending.value = true
   await $fetch('/api/list')
       .then((data) => {
-        console.warn('data: ', data)
         products.value = data
         errorText.value = ''
       })
@@ -46,7 +46,9 @@ onBeforeMount(() => {
     <div class="main__container container">
       <div class="main__filter">
         <div class="main__filter-wrapper">
-          filter
+          <Filter v-if="listResult"
+                  :pending="pending"
+                  :list-products="listResult" />
         </div>
       </div>
       <div class="main__shop">
