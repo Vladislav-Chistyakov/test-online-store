@@ -12,7 +12,6 @@ const errorText = ref('')
 const route = useRoute()
 const store = useCart()
 
-// TODO Усовершенствовать
 const product: Ref<ProductForBasket | null> = ref(null)
 product.value = {
   id: 0,
@@ -60,10 +59,6 @@ onMounted(async () => {
       .finally(() => {
         pending.value = false
       })
-})
-
-const test = computed(() => {
-  return store.arrayItemsCard
 })
 
 const productQuantity = computed(() => {
