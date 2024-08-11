@@ -2,16 +2,17 @@
 import Loader from '~/components/Loader.vue'
 import Error from '~/components/Error/Error.vue'
 import {$fetch} from "ofetch";
-import {useState} from "#app";
 import {useCart} from "~/storage/cart";
 import type { CardProduct, ProductForBasket } from "~/types";
 import {computed, type Ref} from 'vue'
 
 const card: Ref<CardProduct | null> = ref(null)
-const pending = ref(false)
+const pending = ref(true)
 const errorText = ref('')
 const route = useRoute()
+const store = useCart()
 
+// TODO Усовершенствовать
 const product: Ref<ProductForBasket | null> = ref(null)
 product.value = {
   id: 0,
@@ -25,8 +26,7 @@ product.value = {
   urlImage: ''
 }
 
-const store = useCart()
-
+// Убрать в Store
 const localPrice = computed(() => {
   if (card.value && card.value.price) {
     return card.value.price.toLocaleString('ru-RU')
@@ -36,21 +36,18 @@ const localPrice = computed(() => {
 
 onMounted(async () => {
   pending.value = true
+  // Обращение к серверу, оставить
   await $fetch(`/api/card/${route.params.slug}`)
       .then((data: CardProduct) => {
         card.value = data
         errorText.value = ''
-        if (product.value && card.value?.id) {
-          if (store.ifThisProduct(card.value?.id)) {
-            product.value = store.gettingProductDate(card.value?.id)
-          } else {
-            product.value.id = card.value?.id || 0
-            product.value.name = card.value?.title || ''
-            product.value.price = card.value?.price || 0
-            product.value.productQuantity = 0
-            product.value.urlImage = card.value?.image?.file?.url || ''
-            product.value.category = card.value?.category?.slug || ''
-          }
+        if (product.value && card.value && card.value?.id) {
+          product.value.id = card.value?.id || 0
+          product.value.name = card.value?.title || ''
+          product.value.price = card.value?.price || 0
+          product.value.productQuantity = 0
+          product.value.urlImage = card.value?.image?.file?.url || ''
+          product.value.category = card.value?.category?.slug || ''
         }
       })
       .catch((error) => {
@@ -62,6 +59,11 @@ onMounted(async () => {
       })
 })
 
+const test = computed(() => {
+  return store.arrayItemsCard
+})
+
+// Хз что с этим делать, пока оставляем
 const productQuantity = computed(() => {
   if (product.value && product.value.productQuantity) {
     return product.value.productQuantity
@@ -69,18 +71,21 @@ const productQuantity = computed(() => {
   return 0
 })
 
+// Хз что с этим делать, пока оставляем
 const addProduct = function () {
-  if (product.value && product.value?.productQuantity) {
+  if (product.value && product.value?.productQuantity >= 0) {
     product.value.productQuantity = product.value.productQuantity + 1
-  }
-}
-const removeProduct = function () {
-  if (product.value && product.value?.productQuantity) {
-    product.value.productQuantity = product.value.productQuantity - 1
+    store.addItemToCart(product.value)
   }
 }
 
-const counter = useState('counter', () => Math.round(Math.random() * 1000))
+// Хз что с этим делать, пока оставляем
+const removeProduct = function () {
+  if (product.value && product.value?.productQuantity) {
+    product.value.productQuantity = product.value.productQuantity - 1
+    store.addItemToCart(product.value)
+  }
+}
 
 </script>
 
@@ -116,7 +121,7 @@ const counter = useState('counter', () => Math.round(Math.random() * 1000))
           <button v-if="product && product.productQuantity >= 0"
                   class="card__wrapper-button-cart"
                   :disabled="productQuantity > 0"
-                  @click="product.productQuantity = 1">
+                  @click="addProduct">
 
             {{ productQuantity ? 'Товар добавлен в корзину' : 'Добавить товар в корзину' }}
           </button>
@@ -131,6 +136,16 @@ const counter = useState('counter', () => Math.round(Math.random() * 1000))
           </div>
         </div>
       </div>
+      <div style="background-color: #A4A7AA">
+        <pre>
+          {{ test }}
+        </pre>
+      </div>
+      <div style="background-color: #A4666A">
+        <pre>
+          {{ product }}
+        </pre>
+      </div>
     </div>
   </div>
 </template>
@@ -144,9 +159,6 @@ const counter = useState('counter', () => Math.round(Math.random() * 1000))
   padding-top: 100px;
   background-color: $beige-light;
   padding-bottom: 40px;
-}
-
-.card__container {
 }
 
 .card__wrapper {
