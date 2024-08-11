@@ -112,15 +112,22 @@ const counter = useState('counter', () => Math.round(Math.random() * 1000))
                 class="card__list-colors-item" />
           </ul>
         </div>
-        <div>
-<!--          {{ productQuantity}}-->
-          <button v-if="product && product.productQuantity === 0" @click="product.productQuantity = 1">Добавить товар в корзину</button>
-          <div v-if="productQuantity">
-            <button @click="removeProduct">-</button>
-            <br>
-            <button>{{productQuantity}}</button>
-            <br>
-            <button @click="addProduct">+</button>
+        <div class="card__wrapper-block-buttons">
+          <button v-if="product && product.productQuantity >= 0"
+                  class="card__wrapper-button-cart"
+                  :disabled="productQuantity > 0"
+                  @click="product.productQuantity = 1">
+
+            {{ productQuantity ? 'Товар добавлен в корзину' : 'Добавить товар в корзину' }}
+          </button>
+<!--          <div v-if="productQuantity"-->
+<!--                  class="card__wrapper-button-cart-info">-->
+<!--            -->
+<!--          </div>-->
+          <div v-if="productQuantity" class="card__wrapper-buttons">
+            <button @click="removeProduct" class="card__wrapper-buttons-remove">-</button>
+            <div class="card__wrapper-product-quantity">{{productQuantity}}</div>
+            <button @click="addProduct" class="card__wrapper-buttons-add">+</button>
           </div>
         </div>
       </div>
@@ -145,6 +152,7 @@ const counter = useState('counter', () => Math.round(Math.random() * 1000))
 .card__wrapper {
   display: flex;
   flex-direction: row;
+  justify-content: center;
   gap: 40px;
 }
 
@@ -198,6 +206,67 @@ const counter = useState('counter', () => Math.round(Math.random() * 1000))
   height: 10px;
   width: 10px;
   border-radius: 100%;
+}
+
+.card__wrapper-block-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 15px 20px;
+  background-color: $black;
+  height: fit-content;
+}
+
+.card__wrapper-button-cart {
+  padding: 10px;
+  align-items: center;
+  font-size: 16px;
+  line-height: 18px;
+  color: $white;
+  background-color: $beige;
+  &:hover {
+    background-color: $beige-hover;
+  }
+  &:active {
+    background-color: $beige-active;
+  }
+  &:disabled, &:disabled:hover, &:disabled:active {
+    cursor: default;
+    background-color: $beige;
+    opacity: 0.8;
+  }
+}
+
+.card__wrapper-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card__wrapper-buttons-remove, .card__wrapper-product-quantity, .card__wrapper-buttons-add {
+  padding: 6px 10px;
+  background-color: $white;
+  color: $black;
+  font-size: 14px;
+  line-height: 16px;
+  min-width: 30px;
+  text-align: center;
+
+  &:hover {
+    opacity: .8;
+  }
+  &:active {
+    opacity: .6;
+  }
+}
+
+.card__wrapper-product-quantity {
+  &:hover, &:active {
+    cursor: default;
+    opacity: 1;
+  }
 }
 
 </style>
