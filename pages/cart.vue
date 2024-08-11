@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Loader from "~/components/Loader.vue";
 import {useCart} from "~/storage/cart";
-import {computed, type Ref} from 'vue'
+import {type Ref} from 'vue'
 import type {ProductForBasket} from "~/types";
 
 const arrayCart: Ref<Array<ProductForBasket>> = ref([])

@@ -44,8 +44,6 @@ export type CardProduct = {
     content: string
 }
 
-export type ItemsInCart = Array<ProductForBasket>
-
 export type ProductForBasket = {
     id: number,
     color: string,

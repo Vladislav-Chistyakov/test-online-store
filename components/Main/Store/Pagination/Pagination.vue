@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
 const emits = defineEmits(['newActivePage'])
-const props = defineProps({
+defineProps({
   numberOfPages: {
     type: Number,
     required: true

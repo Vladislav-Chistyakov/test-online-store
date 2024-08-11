@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import {computed} from "vue";
 import {useCart} from "~/storage/cart";
 
 const store = useCart()

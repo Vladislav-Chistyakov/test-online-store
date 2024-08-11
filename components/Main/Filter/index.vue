@@ -117,10 +117,10 @@ const filterColorProduct = computed(() => {
 
   if (colorProduct.value) {
     filterArrayColorProduct.value = computedFilterArray.value.filter(item => {
-      const testTwoArray = item.colors.filter(itemColor => {
+      const filterColors = item.colors.filter(itemColor => {
         return itemColor.code === colorProduct.value
       })
-      return testTwoArray.length
+      return filterColors.length
     })
     return filterArrayColorProduct.value
   } else {

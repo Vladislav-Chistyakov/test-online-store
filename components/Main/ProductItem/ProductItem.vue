@@ -2,7 +2,6 @@
 import type {CardProduct, Product, ProductForBasket} from '~/types'
 import {useCart} from "~/storage/cart";
 import {computed, type Ref} from "vue";
-import {$fetch} from "ofetch";
 const props = defineProps<{
   item: Product
 }>()
