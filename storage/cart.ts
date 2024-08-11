@@ -4,7 +4,6 @@ import type {ItemsInCart, ProductForBasket} from "~/types";
 import type { Ref } from 'vue'
 
 export const useCart = defineStore('cart', () => {
-    const countCart = ref(0)
     const products = ref(null)
     const itemsInCart: Ref<Array<ProductForBasket>> = ref([]);
 
@@ -13,8 +12,7 @@ export const useCart = defineStore('cart', () => {
             return itemsInCart.value;
         },
         set(newValue: Array<ProductForBasket>) {
-            console.log('itemsInCart.value, newValue', itemsInCart.value, newValue)
-            itemsInCart.value = newValue;
+            itemsInCart.value = newValue
         }
     })
 
@@ -28,7 +26,7 @@ export const useCart = defineStore('cart', () => {
                 return
             }
         }
-        itemsInCart.value.push(newItem);
+        itemsInCart.value.push(newItem)
     }
 
     function deleteProduct (product: ProductForBasket) {
@@ -47,12 +45,17 @@ export const useCart = defineStore('cart', () => {
     }
 
     const numberCartProduct = computed (() => {
-        return countCart
+        const count = ref(0)
+        const arrProductQuantity = arrayItemsCard.value.map(item => item.productQuantity)
+        for (const item of arrProductQuantity) {
+            count.value = count.value + item
+        }
+        return count.value
     })
 
-    const ifThisProduct = function (id: number): boolean {
+    const ifThisProduct = function (id: number, color: string): boolean {
         for (const item of itemsInCart.value) {
-            if (item.id === id) {
+            if (item.id === id && item.color === color) {
                 return true
             }
         }
@@ -78,12 +81,11 @@ export const useCart = defineStore('cart', () => {
     return {
         addItemToCart,
         deleteProduct,
+        ifThisProduct,
         numberCartProduct,
-        countCart,
         products,
         itemsInCart,
         arrayItemsCard,
-        ifThisProduct,
         gettingArrayProductDate,
         gettingProductDate,
     }

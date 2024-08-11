@@ -26,7 +26,6 @@ product.value = {
   urlImage: ''
 }
 
-// Убрать в Store
 const localPrice = computed(() => {
   if (card.value && card.value.price) {
     return card.value.price.toLocaleString('ru-RU')
@@ -36,18 +35,22 @@ const localPrice = computed(() => {
 
 onMounted(async () => {
   pending.value = true
-  // Обращение к серверу, оставить
   await $fetch(`/api/card/${route.params.slug}`)
       .then((data: CardProduct) => {
         card.value = data
         errorText.value = ''
         if (product.value && card.value && card.value?.id) {
-          product.value.id = card.value?.id || 0
-          product.value.name = card.value?.title || ''
-          product.value.price = card.value?.price || 0
-          product.value.productQuantity = 0
-          product.value.urlImage = card.value?.image?.file?.url || ''
-          product.value.category = card.value?.category?.slug || ''
+          if (store.ifThisProduct(card.value?.id, product.value?.color)) {
+            product.value = store.gettingProductDate(card.value?.id, product.value?.color)
+          } else {
+            product.value.id = card.value?.id || 0
+            product.value.name = card.value?.title || ''
+            product.value.price = card.value?.price || 0
+            product.value.productQuantity = 0
+            product.value.urlImage = card.value?.image?.file?.url || ''
+            product.value.category = card.value?.category?.slug || ''
+          }
+
         }
       })
       .catch((error) => {
@@ -63,7 +66,6 @@ const test = computed(() => {
   return store.arrayItemsCard
 })
 
-// Хз что с этим делать, пока оставляем
 const productQuantity = computed(() => {
   if (product.value && product.value.productQuantity) {
     return product.value.productQuantity
@@ -71,24 +73,25 @@ const productQuantity = computed(() => {
   return 0
 })
 
-// Хз что с этим делать, пока оставляем
 const addProduct = function () {
   if (product.value && product.value?.productQuantity >= 0) {
     product.value.productQuantity = product.value.productQuantity + 1
+    product.value.totalPrice = product.value?.price * product.value?.productQuantity
     store.addItemToCart(product.value)
   }
 }
 
-// Хз что с этим делать, пока оставляем
 const removeProduct = function () {
   if (product.value && product.value?.productQuantity) {
     product.value.productQuantity = product.value.productQuantity - 1
+    product.value.totalPrice = product.value?.price * product.value?.productQuantity
     store.addItemToCart(product.value)
   }
 }
 
 const deleteProduct = function () {
   if (product.value) {
+    product.value.totalPrice = 0
     store.deleteProduct(product.value)
   }
 }
@@ -131,27 +134,17 @@ const deleteProduct = function () {
 
             {{ productQuantity ? 'Товар добавлен в корзину' : 'Добавить товар в корзину' }}
           </button>
-<!--          <div v-if="productQuantity"-->
-<!--                  class="card__wrapper-button-cart-info">-->
-<!--            -->
-<!--          </div>-->
           <div v-if="productQuantity" class="card__wrapper-buttons">
             <button @click="removeProduct" class="card__wrapper-buttons-remove">-</button>
             <div class="card__wrapper-product-quantity">{{productQuantity}}</div>
             <button @click="addProduct" class="card__wrapper-buttons-add">+</button>
           </div>
-          <button @click="deleteProduct">Удалить продукт</button>
+          <button class="card__delete-button" @click="deleteProduct" v-if="productQuantity > 0">Удалить продукт</button>
+
+          <b class="card__total-price" v-if="product && product.totalPrice">
+            {{ product.totalPrice.toLocaleString('ru-RU') }}&#8381;
+          </b>
         </div>
-      </div>
-      <div style="background-color: #A4A7AA">
-        <pre>
-          {{ test }}
-        </pre>
-      </div>
-      <div style="background-color: #A4666A">
-        <pre>
-          {{ product }}
-        </pre>
       </div>
     </div>
   </div>
@@ -286,6 +279,23 @@ const deleteProduct = function () {
     cursor: default;
     opacity: 1;
   }
+}
+
+.card__delete-button {
+  padding: 10px 10px;
+  background-color: $white;
+  color: $black;
+
+  &:hover {
+    opacity: .8;
+  }
+  &:active {
+    opacity: .6;
+  }
+}
+
+.card__total-price {
+  color: $white;
 }
 
 </style>

@@ -5,7 +5,9 @@ import {useCart} from "~/storage/cart";
 
 const store = useCart()
 
-const storeNumber = store.numberCartProduct
+// const storeNumber = computed(() => {
+//   return
+// })
 
 
 </script>
@@ -27,7 +29,7 @@ const storeNumber = store.numberCartProduct
             </g>
           </svg>
         </span>
-        <div class="header__basket-quantity">{{ storeNumber }}</div>
+        <div class="header__basket-quantity">{{ store.numberCartProduct }}</div>
       </div>
     </div>
   </header>
